@@ -32,6 +32,7 @@ The endpoints to create for this service are:
 ]
 ```
 
+
 *Special considerations*
 
 The client name (GET /clients/{id}) and the product name (GET /products/{id}) will come from the corresponding endpoints.
