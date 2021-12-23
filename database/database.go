@@ -14,15 +14,9 @@ type Database struct {
 }
 
 func (db *Database) CreateSampleData() *Database {
-	apple := entity.Product{Id: 1, Name: "Apple"}
-	banana := entity.Product{Id: 2, Name: "Banana"}
-	kiwi := entity.Product{Id: 3, Name: "Kiwi"}
-	orange := entity.Product{Id: 4, Name: "Orange"}
 
-	db.GetDB().Create(&apple).Create(&banana).Create(&kiwi).Create(&orange)
-
-	productList1 := []entity.Product{apple, banana}
-	productList2 := []entity.Product{apple, kiwi, orange}
+	productList1 := []uint{1, 2}
+	productList2 := []uint{1, 3, 4}
 
 	invoice1 := entity.Invoice{Id: 1, ClientId: 1, InvoiceDate: time.Now(), Products: productList1}
 	invoice2 := entity.Invoice{Id: 2, ClientId: 2, InvoiceDate: time.Now(), Products: productList2}
@@ -33,7 +27,7 @@ func (db *Database) CreateSampleData() *Database {
 }
 
 func (db *Database) Migrate() *Database {
-	db.GetDB().AutoMigrate(&entity.Invoice{}, &entity.Product{})
+	db.GetDB().AutoMigrate(&entity.Invoice{})
 	return db
 }
 

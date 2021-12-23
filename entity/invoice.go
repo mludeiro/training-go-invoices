@@ -8,7 +8,7 @@ type Invoice struct {
 	Id          uint      `gorm:"primaryKey"`
 	ClientId    uint      `gorm:"index"`
 	InvoiceDate time.Time ``
-	Products    []Product `json:",omitempty"`
+	Products    []uint    `json:",omitempty"`
 }
 
 func (Invoice) TableName() string {
