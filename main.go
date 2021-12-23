@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"training-go-invoices/container"
+)
 
 func main() {
-	fmt.Println("Soy un solitario y triste proyecto de go, ojala algun dia algun dev me programe")
+	cont := container.NewContainer()
+
+	cont.DataBase.InitializeSQLite().Migrate().CreateSampleData()
+	cont.WebServer.CreateServer()
 }
