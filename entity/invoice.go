@@ -5,10 +5,10 @@ import (
 )
 
 type Invoice struct {
-	Id          uint      `gorm:"primaryKey"`
-	ClientId    uint      `gorm:"index"`
-	InvoiceDate time.Time ``
-	Products    []uint    `json:",omitempty"`
+	Id             uint             `gorm:"primaryKey"`
+	ClientId       uint             `gorm:"index"`
+	InvoiceDate    time.Time        ``
+	InvoiceDetails []InvoiceDetails ``
 }
 
 func (Invoice) TableName() string {
