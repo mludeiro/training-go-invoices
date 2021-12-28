@@ -15,13 +15,16 @@ type Database struct {
 
 func (db *Database) CreateSampleData() *Database {
 
-	productList1 := []uint{1, 2}
-	productList2 := []uint{1, 3, 4}
-
-	invoice1 := entity.Invoice{Id: 1, ClientId: 1, InvoiceDate: time.Now(), Products: productList1}
-	invoice2 := entity.Invoice{Id: 2, ClientId: 2, InvoiceDate: time.Now(), Products: productList2}
+	invoice1 := entity.Invoice{Id: 1, ClientId: 1, InvoiceDate: time.Now()}
+	invoice2 := entity.Invoice{Id: 2, ClientId: 2, InvoiceDate: time.Now()}
 
 	db.GetDB().Create(&invoice1).Create(&invoice2)
+
+	invoiceDetail1 := entity.InvoiceDetails{Id: 1, InvoiceId: invoice1.Id, ProductId: 1, Quantity: 2, UnitPrice: 500}
+	invoiceDetail2 := entity.InvoiceDetails{Id: 2, InvoiceId: invoice1.Id, ProductId: 4, Quantity: 1, UnitPrice: 200}
+	invoiceDetail3 := entity.InvoiceDetails{Id: 3, InvoiceId: invoice2.Id, ProductId: 8, Quantity: 5, UnitPrice: 100}
+
+	db.GetDB().Create(&invoiceDetail1).Create(&invoiceDetail2).Create(&invoiceDetail3)
 
 	return db
 }
