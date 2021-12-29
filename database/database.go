@@ -5,7 +5,7 @@ import (
 	"time"
 	"training-go-invoices/entity"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -38,8 +38,9 @@ func (db *Database) GetDB() *gorm.DB {
 	return db.gormDB
 }
 
-func (db *Database) InitializeSQLite() *Database {
-	DB, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"))
+func (db *Database) InitializeMySQL() *Database {
+	dsn := "root:127.0.0.1:3306/goInvoices?charset=utf8mb4&parseTime=True&loc=Local"
+	DB, err := gorm.Open(mysql.Open(dsn))
 
 	if err != nil {
 		log.Fatal("Cannot initialize database :(")
