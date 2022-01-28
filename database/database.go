@@ -4,9 +4,11 @@ import (
 	"log"
 	"time"
 	"training-go-invoices/entity"
+	"training-go-invoices/tools"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type Database struct {
@@ -31,6 +33,7 @@ func (db *Database) CreateSampleData() *Database {
 
 func (db *Database) Migrate() *Database {
 	db.GetDB().AutoMigrate(&entity.Invoice{})
+	db.GetDB().AutoMigrate(&entity.InvoiceDetails{})
 	return db
 }
 
@@ -39,8 +42,8 @@ func (db *Database) GetDB() *gorm.DB {
 }
 
 func (db *Database) InitializeMySQL() *Database {
-	dsn := "root:127.0.0.1:3306/goInvoices?charset=utf8mb4&parseTime=True&loc=Local"
-	DB, err := gorm.Open(mysql.Open(dsn))
+	dsn := "root:@tcp(127.0.0.1:3306)/goInvoices?charset=utf8mb4&parseTime=True&loc=Local"
+	DB, err := gorm.Open(mysql.Open(dsn), createGormConfig())
 
 	if err != nil {
 		log.Fatal("Cannot initialize database :(")
@@ -48,4 +51,17 @@ func (db *Database) InitializeMySQL() *Database {
 
 	db.gormDB = DB
 	return db
+}
+
+func createGormConfig() *gorm.Config {
+	return &gorm.Config{
+		Logger: logger.New(
+			tools.GetLogger(), // io writer
+			logger.Config{
+				SlowThreshold:             time.Second, // Slow SQL threshold
+				LogLevel:                  logger.Info, // Log level
+				IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+				Colorful:                  true,        // Disable color
+			}),
+	}
 }
